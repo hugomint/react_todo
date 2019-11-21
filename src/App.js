@@ -50,6 +50,7 @@ class App extends Component {
         completed: false
       })
       .then(res => {
+        //console.log(res)
         res.data.id = uuid.v4();
         this.setState({ todos: [...this.state.todos, res.data] });
       });
