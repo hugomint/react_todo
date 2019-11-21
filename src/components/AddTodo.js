@@ -12,7 +12,12 @@ export class AddTodo extends Component {
     this.setState({ title: '' });
   }
 
-  onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+  onChange = (e) => {
+  // console.log(e.target.name)
+  return  this.setState(
+      { [e.target.name]: e.target.value }
+    )
+  }
 
   render() {
     return (
