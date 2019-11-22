@@ -1,24 +1,25 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Header from "./components/layout/Header";
-import Todos from "./components/Todos";
-import AddTodo from "./components/AddTodo";
-import About from "./components/pages/About";
-import Contact from "./components/pages/Contact";
-import uuid from "uuid";
-import axios from "axios";
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Header from './components/layout/Header'
+import Todos from './components/Todos'
+import AddTodo from './components/AddTodo'
+import About from './components/pages/About'
+import Contact from './components/pages/Contact'
+import uuid from 'uuid'
+import axios from 'axios'
 
-import "./App.css";
+import './App.css'
 
 class App extends Component {
   state = {
     todos: []
-  };
+  }
 
-  componentDidMount() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos?_limit=10")
-      .then(res => this.setState({ todos: res.data }));
+  componentDidMount () {
+    axios.get('http://localhost:3030/post').then(res => {
+      console.log(res)
+      this.setState({ todos: res.data })
+    })
   }
 
   // Toggle Complete
@@ -26,12 +27,12 @@ class App extends Component {
     this.setState({
       todos: this.state.todos.map(todo => {
         if (todo.id === id) {
-          todo.completed = !todo.completed;
+          todo.completed = !todo.completed
         }
-        return todo;
+        return todo
       })
-    });
-  };
+    })
+  }
 
   // Delete Todo
   delTodo = id => {
@@ -39,32 +40,32 @@ class App extends Component {
       this.setState({
         todos: [...this.state.todos.filter(todo => todo.id !== id)]
       })
-    );
-  };
+    )
+  }
 
   // Add Todo
   addTodo = title => {
     axios
-      .post("https://jsonplaceholder.typicode.com/todos", {
+      .post('https://jsonplaceholder.typicode.com/todos', {
         title,
         completed: false
       })
       .then(res => {
-        //console.log(res)
-        res.data.id = uuid.v4();
-        this.setState({ todos: [...this.state.todos, res.data] });
-      });
-  };
+        // console.log(res)
+        res.data.id = uuid.v4()
+        this.setState({ todos: [...this.state.todos, res.data] })
+      })
+  }
 
-  render() {
+  render () {
     return (
       <Router>
-        <div className="App">
-          <div className="container">
+        <div className='App'>
+          <div className='container'>
             <Header />
             <Route
               exact
-              path="/"
+              path='/'
               render={props => (
                 <React.Fragment>
                   <AddTodo addTodo={this.addTodo} />
@@ -76,13 +77,13 @@ class App extends Component {
                 </React.Fragment>
               )}
             />
-            <Route path="/about" component={About} />
-            <Route path="/contact" component={Contact} />
+            <Route path='/about' component={About} />
+            <Route path='/contact' component={Contact} />
           </div>
         </div>
       </Router>
-    );
+    )
   }
 }
 
-export default App;
+export default App
